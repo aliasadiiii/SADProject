@@ -1,14 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-    {% for p in products %}
-    <div>
-        {{ p.name }}
-        {{ p.price }}
-        {{ p.is_available }}
-        <img src="/media/{{ p.photo }}" width="70px" height="70px">
-    </div>
-    {% endfor %}
+<div class="row">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <table class="table">
+            <thead>
+                <tr>
+                <th>تصویر</th>
+                <th>موجودی</th>
+                <th>قیمت محصول</th>
+                <th>نام محصول</th>
+                </tr>
+                </thead>
+            <tbody>
+                {% for p in products %}
+                    <tr>
+                    <td><img src="/media/{{ p.photo }}" width="70px" height="70px"></td>
+                    <td>{{ p.is_available }}</td>
+                    <td>ریال {{ p.price }}</td>
+                    <td>{{ p.name }}</td>
+                    </tr>
+                {% endfor %}
+            <tbody>
+        </table>
+    </main>
+    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+            <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">انواع محصولات</h6>
+            <ul class="nav flex-column mb-2">
+                {% for kind in kinds %}
+                    <li class="nav-item">
+                        <a class="nav-link"href="?kind={{kind}}">{{kind}}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
 </div>
 {% endblock %}
