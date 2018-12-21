@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    {% for p in products %}
+    <div>
+        {{ p.name }}
+        {{ p.price }}
+        {{ p.is_available }}
+        <img src="/media/{{ p.photo }}" width="70px" height="70px">
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
