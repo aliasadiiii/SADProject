@@ -9,7 +9,7 @@ from account.forms import SignupForm
 from account.models import Account
 
 def showProfile(request, username):
-    response = "Hell %s."
+    response = "Hello %s."
     return HttpResponse(response % username)
 
 class register(View):
