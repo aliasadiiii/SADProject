@@ -1,22 +1,24 @@
-from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.generic.base import View
 
 from account.forms import SignupForm
 from account.models import Account
 
-def showProfile(request, username):
+def show_profile(request, username):
     response = "Hell %s."
     return HttpResponse(response % username)
 
-class register(View):
-    def get(self,request):
+
+class Register(View):
+    @staticmethod
+    def get(request):
         form = SignupForm()
         return render(request, 'account/register.html', {'form':form})
-    def post(self,request):
+
+    @staticmethod
+    def post(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
