@@ -125,4 +125,4 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'account/showprofile/'
+LOGIN_REDIRECT_URL = 'account/profile/'

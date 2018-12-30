@@ -7,9 +7,9 @@ from account.forms import SignupForm
 from account.models import Account
 
 
-def show_profile(request, username):
-    response = "Hell %s."
-    return HttpResponse(response % username)
+def show_profile(request):
+    response = "Hello %s."
+    return HttpResponse(response)
 
 
 class Register(View):
@@ -25,8 +25,10 @@ class Register(View):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             phone = form.cleaned_data.get('phone')
-            user = User(username = username, password = password)
+            user = User(username = username)
+            user.set_password(password)
             user.save()
+
             account = Account(user=user,phone=phone)
             account.save()
             return HttpResponse("Registration completed.")
