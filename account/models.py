@@ -9,7 +9,9 @@ class Account(models.Model):
     name = models.CharField(max_length=20)
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=11)
-    token = models.CharField(max_length=10, unique=True)
+    activation_token = models.CharField(max_length=10, unique=True)
+    forget_password_token = models.CharField(max_length=10, unique=True,
+                                             null=True)
 
     @staticmethod
     def generate_random_token():
