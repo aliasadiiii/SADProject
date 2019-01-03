@@ -52,4 +52,4 @@ def activate(request):
         account.user.save()
         return redirect(reverse('home'))
     except Account.DoesNotExist:
-        return HttpResponse("کاربر موردنظر وجود نداشت")
+        return HttpResponse("کاربر موردنظر وجود نداشت", status=404)
