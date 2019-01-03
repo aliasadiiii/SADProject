@@ -127,3 +127,9 @@ MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'account/profile/'
+
+EMAIL_HOST_USER = 'sadprojectgroup7@gmail.com'
+EMAIL_HOST_PASSWORD = 'salamsalam'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
