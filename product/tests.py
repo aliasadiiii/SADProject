@@ -3,11 +3,12 @@ from model_mommy import mommy
 
 from django.test import TestCase
 
-from .models import Product
+from .models import Product, ProductKind
 
 class ProductListTestCase(TestCase):
     def setUp(self):
-        mommy.make(Product, name='test', kind='test',
+        product_kind = mommy.make(ProductKind, name='test')
+        mommy.make(Product, name='test', kind=product_kind,
                    price=1000, expires_at=date.today() + timedelta(3))
 
     def test_product_list(self):
