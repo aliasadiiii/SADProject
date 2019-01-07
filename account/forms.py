@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
+from account.models import Account
+
 
 def phone_validator(phone):
     return len(phone) == 11 and str(phone).isalnum()
@@ -31,3 +33,6 @@ class ChangePasswordForm(forms.Form):
         cleaned_data = super().clean()
         if cleaned_data['password1'] != cleaned_data['password2']:
             self.add_error('password2', "Passwords don't match.")
+
+class EditProfileForm(forms.ModelForm):
+    model = Account

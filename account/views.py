@@ -1,11 +1,12 @@
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.views.generic import FormView
+from django.views.generic import UpdateView
 from django.views.generic.base import View
 
-from account.forms import ChangePasswordForm, ForgetPasswordForm, SignupForm
+from account.forms import ChangePasswordForm, ForgetPasswordForm, SignupForm, EditProfileForm
 from account.models import Account
 from account.utils import send_activation_email, send_forget_password_email
 
@@ -13,9 +14,25 @@ from account.utils import send_activation_email, send_forget_password_email
 def show_profile(request, username):
     user = get_object_or_404(User, username=username)
     if request.user.is_authenticated and username == request.user.username:
-        return render(request, 'account/edit_profile.html', {'user': user})
+        return render(request, 'account/my_profile.html', {'user': user})
     return render(request, 'account/profile.html', {'user': user})
 
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    model = Account
+    fields = ["name", "phone", "avatar"]
+    template_name = "account/edit_profile.html"
+
+    def get_object(self, queryset=None):
+        return self.request.user.account
+
+    def get_context_data(self, **kwargs):
+        context = super(EditProfileView, self).get_context_data()
+        context["account"] = self.request.user.account
+        return context
+
+    def get_success_url(self):
+        return reverse('account:edit_profile')
 
 class Register(View):
     @staticmethod
@@ -119,4 +136,3 @@ class ChangePassword(View):
                           {'form': form})
         except Account.DoesNotExist:
             return HttpResponse("کاربر موردنظر وجود نداشت", status=404)
-
