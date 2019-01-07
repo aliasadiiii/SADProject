@@ -12,6 +12,10 @@ class Account(models.Model):
     activation_token = models.CharField(max_length=10, unique=True)
     forget_password_token = models.CharField(max_length=10, unique=True,
                                              null=True)
+    avatar = models.ImageField(null=True, blank=True)
+    join_date = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return '{username} _ {name}'.format(username=self.user.username, name=self.name)
 
     @staticmethod
     def generate_random_token():

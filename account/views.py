@@ -1,6 +1,8 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.views.generic import FormView
 from django.views.generic.base import View
 
 from account.forms import ChangePasswordForm, ForgetPasswordForm, SignupForm
@@ -8,9 +10,11 @@ from account.models import Account
 from account.utils import send_activation_email, send_forget_password_email
 
 
-def show_profile(request):
-    response = "Hello %s."
-    return HttpResponse(response)
+def show_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.user.is_authenticated and username == request.user.username:
+        return render(request, 'account/edit_profile.html', {'user': user})
+    return render(request, 'account/profile.html', {'user': user})
 
 
 class Register(View):
@@ -115,3 +119,4 @@ class ChangePassword(View):
                           {'form': form})
         except Account.DoesNotExist:
             return HttpResponse("کاربر موردنظر وجود نداشت", status=404)
+
