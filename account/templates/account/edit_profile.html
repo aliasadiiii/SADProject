@@ -1,8 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
-<h3>{{ request.user.username }}</h3>
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
-</form>
+
+<div class="container">
+    <form method="post" dir ="rtl">
+        {% csrf_token %}
+        <fieldset>
+            <legend> ویرایش پروفایل {{ request.user.username }}</legend>
+            <br>
+            {% for field in form %}
+            <div class="from-group">
+            <label>{{field.label}}:</label>
+            {{ field }}
+            </div>
+            {% endfor %}
+            <!--<div class="form-group">-->
+            <!--<label for="exampleInputEmail1">Email address</label>-->
+            <!--<input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"-->
+            <!--placeholder="Enter email" type="email">-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+            <!--<label for="exampleInputPassword1">Password</label>-->
+            <!--<input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password">-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+            <!--<label for="exampleInputFile">File input</label>-->
+            <!--<input class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" type="file">-->
+            <!--</div>-->
+            <br>
+            <button type="submit" class="btn btn-primary float-right">بروزرسانی</button>
+        </fieldset>
+    </form>
+</div>
 {% endblock %}
