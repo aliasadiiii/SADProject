@@ -11,7 +11,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
     path('profile/<slug:username>', views.show_profile, name ='profile'),
-    path('edit_profile/', views.EditProfileView.as_view(), name='edit_profile'),
+    path('edit-profile/', views.EditProfileView.as_view(), name='edit_profile'),
 
     path('activate/', views.activate, name='activate'),
     path('forget_password/', views.ForgetPassword.as_view(), name='forget_password'),

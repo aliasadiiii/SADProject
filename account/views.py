@@ -14,7 +14,7 @@ from account.utils import send_activation_email, send_forget_password_email
 def show_profile(request, username):
     user = get_object_or_404(User, username=username)
     if request.user.is_authenticated and username == request.user.username:
-        return render(request, 'account/my_profile.html', {'user': user})
+        return render(request, 'account/show_profile.html', {'user': user})
     return render(request, 'account/profile.html', {'user': user})
 
 
