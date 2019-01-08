@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="container">
-    <form method="post" dir ="rtl">
+    <form method="post" dir ="rtl" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset>
             <legend> ویرایش پروفایل {{ request.user.username }}</legend>
@@ -15,21 +15,8 @@
             {{ field }}
             </div>
             {% endfor %}
-            <!--<div class="form-group">-->
-            <!--<label for="exampleInputEmail1">Email address</label>-->
-            <!--<input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"-->
-            <!--placeholder="Enter email" type="email">-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-            <!--<label for="exampleInputPassword1">Password</label>-->
-            <!--<input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password">-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-            <!--<label for="exampleInputFile">File input</label>-->
-            <!--<input class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" type="file">-->
-            <!--</div>-->
             <br>
-            <button type="submit" class="btn btn-primary float-right">بروزرسانی</button>
+            <button class="btn btn-primary float-right">بروزرسانی</button>
         </fieldset>
     </form>
 </div>

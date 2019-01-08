@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -11,11 +12,9 @@ from account.models import Account
 from account.utils import send_activation_email, send_forget_password_email
 
 
-def show_profile(request, username):
-    user = get_object_or_404(User, username=username)
-    if request.user.is_authenticated and username == request.user.username:
-        return render(request, 'account/show_profile.html', {'user': user})
-    return render(request, 'account/profile.html', {'user': user})
+@login_required
+def show_profile(request):
+    return render(request, 'account/show_profile.html')
 
 
 class EditProfileView(LoginRequiredMixin, UpdateView):

@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='account/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
-    path('profile/<slug:username>', views.show_profile, name ='profile'),
+    path('profile/', views.show_profile, name ='profile'),
     path('edit-profile/', views.EditProfileView.as_view(), name='edit_profile'),
 
     path('activate/', views.activate, name='activate'),

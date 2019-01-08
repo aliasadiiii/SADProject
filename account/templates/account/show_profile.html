@@ -21,7 +21,7 @@
         {% if not user.account.avatar %}
             <img src="http://www.seowptheme.com/wp-content/uploads/avatar-2-1-300x300.png"  alt="" class="img-rounded">
         {% else %}
-        salam
+            <img src="{{  user.account.avatar.url }}" height="300px" width="300px">
         {% endif %}
 
     </div>
