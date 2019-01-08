@@ -29,6 +29,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about-us' %}">درباره ما</a>
                 </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">{{ user.username }} خوش آمدید</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account:registration' %}">ورود</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account:login' %}">ثبت نام</a>
+                    </li>
+                {% endif %}
                 </ul>
             </div>
         </nav>

@@ -1,6 +1,10 @@
 {% extends 'general/base.html' %}
 
 {% block content %}
-    خانه
+    {% if user.is_authenticated %}
+        salam
+        {% else%}
+        bye
+    {% endif %}
 
 {% endblock %}
