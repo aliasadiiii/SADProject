@@ -5687,7 +5687,7 @@ S2.define('select2/compat/containerCss',[
   'jquery',
   './utils'
 ], function ($, CompatUtils) {
-  // No-op CSS adapter that discards all classes by default
+  // No-op css adapter that discards all classes by default
   function _containerAdapter (clazz) {
     return null;
   }
@@ -5744,7 +5744,7 @@ S2.define('select2/compat/dropdownCss',[
   'jquery',
   './utils'
 ], function ($, CompatUtils) {
-  // No-op CSS adapter that discards all classes by default
+  // No-op css adapter that discards all classes by default
   function _dropdownAdapter (clazz) {
     return null;
   }

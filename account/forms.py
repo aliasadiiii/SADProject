@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 from account.models import Account
 
@@ -34,5 +34,16 @@ class ChangePasswordForm(forms.Form):
         if cleaned_data['password1'] != cleaned_data['password2']:
             self.add_error('password2', "Passwords don't match.")
 
+
 class EditProfileForm(forms.ModelForm):
-    model = Account
+    class Meta:
+        model = Account
+        fields = ["name", "phone", "avatar"]
+        labels = {"name": "نام", "phone": "شماره تماس", "avatar": "نمایه"}
+
+    def __init__(self, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args,**kwargs)
+        for field in ["name", "phone"]:
+            self.fields[field].widget.attrs.update({"class": "form-control"})
+        for field in ["avatar"]:
+            self.fields[field].widget.attrs.update({"class": "form-control-file"})

@@ -19,8 +19,7 @@ def show_profile(request, username):
 
 
 class EditProfileView(LoginRequiredMixin, UpdateView):
-    model = Account
-    fields = ["name", "phone", "avatar"]
+    form_class = EditProfileForm
     template_name = "account/edit_profile.html"
 
     def get_object(self, queryset=None):
@@ -33,6 +32,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('account:edit_profile')
+
 
 class Register(View):
     @staticmethod
@@ -57,7 +57,7 @@ class Register(View):
 
             activation_link = "{}{}?token={}".format(
                 settings.HOST_NAME,
-                reverse('activate'),
+                reverse('account:activate'),
                 account.activation_token)
             send_activation_email(to=email, activation_link=activation_link)
 
@@ -93,7 +93,7 @@ class ForgetPassword(View):
                 account.save()
                 forget_password_link = "{}{}?token={}".format(
                     settings.HOST_NAME,
-                    reverse('change_password'),
+                    reverse('account:change_password'),
                     account.forget_password_token)
 
                 send_forget_password_email(
