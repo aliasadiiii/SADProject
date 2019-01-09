@@ -42,7 +42,7 @@ class EditProfileForm(forms.ModelForm):
         labels = {"name": "نام", "phone": "شماره تماس", "avatar": "نمایه"}
 
     def __init__(self, *args, **kwargs):
-        super(EditProfileForm, self).__init__(*args,**kwargs)
+        super(EditProfileForm, self).__init__(*args, **kwargs)
         for field in ["name", "phone"]:
             self.fields[field].widget.attrs.update({"class": "form-control"})
         for field in ["avatar"]:

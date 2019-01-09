@@ -14,6 +14,7 @@ class Account(models.Model):
                                              null=True)
     avatar = models.ImageField(null=True, blank=True)
     join_date = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return '{username} _ {name}'.format(username=self.user.username, name=self.name)
 

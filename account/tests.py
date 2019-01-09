@@ -31,14 +31,14 @@ class ForgetPasswordTestCase(TestCase):
         self.account = mommy.make(Account, user=user, phone='09120000000')
 
     def test_forget_password(self):
-        self.client.post('/account/forget-password/', data={
+        self.client.post('/account/forget_password/', data={
             'email': 'test@test.com'
         })
         self.assertEqual(len(mail.outbox), 1)
 
         self.account.refresh_from_db()
         self.client.post(
-            '/account/change-password/?token={}'.format(
+            '/account/change_password/?token={}'.format(
                 self.account.forget_password_token),
             data={'password1': 'testtest', 'password2': 'testtest'}
         )
