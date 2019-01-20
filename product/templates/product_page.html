@@ -1,0 +1,43 @@
+{% extends "general/base.html" %}
+
+{% block content %}
+<style>
+    .container{
+    padding:5%;
+}
+.container .img{
+    text-align:center;
+}
+.container .details{
+    border-left:3px solid #ded4da;
+}
+.container .details p{
+    font-size:15px;
+    font-weight:bold;
+}
+</style>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 img">
+        <img src="/media/{{ product.photo }}" height="300px" width="300px">
+
+    </div>
+    <div class="col-md-6 details">
+      <blockquote>
+        <h5>{{ product.name }}</h5>
+{#        <small><cite title="Source Title">{{product.name}}  <i class="icon-map-marker"></i></cite></small>#}
+      </blockquote>
+      <p style="direction: rtl">
+          {% if product.is_available %} موجود
+          {% else %} ناموجود
+          {% endif %} <br>
+        قیمت:
+          {{product.price}} <br>
+        انقضا:
+        {{product.expires_at|date:"D d M Y" }} <br>
+      </p>
+        <a href="{% url "account:edit_profile" %}" class="btn btn-primary">اضافه کردن به سبد خرید</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

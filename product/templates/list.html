@@ -28,7 +28,7 @@
                                 <span style="color: red">موجود نیست</span>
                             {% endif %}
                         </td>
-                        <td>{{ p.name }}</td>
+                        <td> <a href="/product/{{ p.product_id }}">{{ p.name }}</a> </td>
                     </tr>
                 {% endfor %}
             <tbody>
@@ -40,7 +40,7 @@
             <ul class="nav flex-column mb-2">
                 {% for kind in kinds %}
                     <li class="nav-item">
-                        <a class="nav-link"href="?kind={{kind}}">{{kind}}</a>
+                        <a class="nav-link" href="?kind={{kind}}">{{kind}}</a>
                     </li>
                 {% endfor %}
             </ul>
