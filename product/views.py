@@ -43,7 +43,7 @@ def product_page(request, product_id):
             'photo': p.photo,
             'product_id': p.id}
     return render(request, 'product_page.html',
-                  context={'product': product})
+                  context={'product': product},)
     # print(product_id)
 
 
