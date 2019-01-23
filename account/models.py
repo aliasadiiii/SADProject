@@ -25,5 +25,6 @@ class Account(models.Model):
         return code
 
 
-        # class Address(models.Model):
-        #    Account = models.ForeignKey()
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)

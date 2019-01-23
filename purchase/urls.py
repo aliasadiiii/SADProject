@@ -5,5 +5,5 @@ from purchase import views
 app_name = 'purchase'
 
 urlpatterns = [
-    path('<int:pk>/', views.add_item_to_cart, name='add_item_to_cart'),
+    path('add/<int:product_id>', views.add_item_to_cart, name='add_item_to_cart'),
 ]

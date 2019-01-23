@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row">
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
         <table class="table">
             <thead>
                 <tr>
@@ -15,6 +15,19 @@
             <tbody>
                 {% for p in products %}
                     <tr>
+                        <td width="350px">
+                            <form method="post" action="{% url 'purchase:add_item_to_cart' product_id=p.product_id %}">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="col">
+                                        <input class="form-control" id="amount" style="margin-bottom: 10px" width="10px" placeholder="وزن به کیلوگرم">
+                                    </div>
+                                    <div class="col">
+                                        <input class="btn btn-primary" type="submit" value="اضافه کردن محصول">
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
                         <td><img src="/media/{{ p.photo }}" height="100px" width="130px"></td>
                         <td>
                                 {{ p.manufacture_date }}:تولید<br>
