@@ -7,7 +7,8 @@ from .models import Purchase, PurchaseItem
 
 @login_required
 def add_item_to_cart(request, product_id):
-    amount = request.POST.get('amount', 0)
+    amount = int(request.POST.get('amount', 0))
+    print (amount)
 
     try:
         purchase = Purchase.objects.get(user=request.user, state='N')

@@ -1,10 +1,10 @@
 {% extends 'general/base.html' %}
 
 {% block content %}
-<div class="row">
-    <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
-        <table class="table">
-            <thead>
+    <div class="row">
+        <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <table class="table">
+                <thead>
                 <tr>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -12,26 +12,57 @@
                     <th scope="col">محصولات</th>
                 </tr>
                 </thead>
-            <tbody>
+                <tbody>
                 {% for p in products %}
                     <tr>
-                        <td width="350px">
-                            <form method="post" action="{% url 'purchase:add_item_to_cart' product_id=p.product_id %}">
-                                {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="col">
-                                        <input class="form-control" id="amount" style="margin-bottom: 10px" width="10px" placeholder="وزن به کیلوگرم">
-                                    </div>
-                                    <div class="col">
-                                        <input class="btn btn-primary" type="submit" value="اضافه کردن محصول">
+                        <td width="150px">
+                            <a onclick="$('#Modal-{{ p.product_id }}').modal('toggle')"
+                               class="btn btn-primary" data-toggle="modal"
+                               data-target="Modal-{{ p.product_id }}">اضافه کردن محصول</a>
+
+                            <div id='Modal-{{ p.product_id }}' class="modal" tabindex="-1"
+                                 role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">تعیین مقدار
+                                                محصول موردنظر</h5>
+                                            <button type="button" class="close"
+                                                    data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span>&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body form-group">
+                                            <form method="post"
+                                                  action="{% url "purchase:add_item_to_cart" p.product_id %}"
+                                                  dir="rtl">
+                                                {% csrf_token %}
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-sm-2">مقدار:</label>
+                                                    <input value="{{ current }}"
+                                                           required
+                                                           class="form-control col-sm-9"
+                                                           type="number"
+                                                           name="amount"
+                                                           placeholder="مقدار موردنظر را بر حسب کیلوگرم وارد کنید">
+                                                </div>
+                                                <br>
+                                                <button class="btn btn-primary">
+                                                    اضافه
+                                                    کن
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </td>
-                        <td><img src="/media/{{ p.photo }}" height="100px" width="130px"></td>
+                        <td><img src="/media/{{ p.photo }}" height="100px"
+                                 width="130px"></td>
                         <td>
-                                {{ p.manufacture_date }}:تولید<br>
-                                {{ p.expires_at }}:انقضا
+                            {{ p.manufacture_date }}:تولید<br>
+                            {{ p.expires_at }}:انقضا
 
                         </td>
                         <td>
@@ -41,23 +72,27 @@
                                 <span style="color: red">موجود نیست</span>
                             {% endif %}
                         </td>
-                        <td> <a href="/product/{{ p.product_id }}">{{ p.name }}</a> </td>
+                        <td>
+                            <a href="/product/{{ p.product_id }}">{{ p.name }}</a>
+                        </td>
                     </tr>
                 {% endfor %}
-            <tbody>
-        </table>
-    </main>
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-            <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">انواع محصولات</h6>
-            <ul class="nav flex-column mb-2">
-                {% for kind in kinds %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="?kind={{kind}}">{{kind}}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </nav>
-</div>
+                <tbody>
+            </table>
+        </main>
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">انواع
+                    محصولات</h6>
+                <ul class="nav flex-column mb-2">
+                    {% for kind in kinds %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="?kind={{ kind }}">{{ kind }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </nav>
+    </div>
 {% endblock %}
