@@ -4,13 +4,13 @@ from django.db import models
 from product.models import Product
 
 
-class Cart(models.Model):
+class Purchase(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     comment = models.CharField(max_length=200)
 
 
-class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+class PurchaseItem(models.Model):
+    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.IntegerField()
     fee = models.IntegerField()
