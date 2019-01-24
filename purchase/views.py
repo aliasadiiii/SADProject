@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.shortcuts import render
 
 from product.models import Product
 from .models import Purchase, PurchaseItem
@@ -33,3 +34,26 @@ def add_item_to_cart(request, product_id):
     purchase_item.save()
 
     return HttpResponse("amme")
+
+
+@login_required
+def show_cart(request):
+    try:
+        purchase = Purchase.objects.get(user=request.user, state='N')
+    except Purchase.DoesNotExist:
+        return render(request, 'purchase/cart.html', {
+            'items': []
+        })
+
+    purchase_items = []
+    for p in PurchaseItem.objects.filter(purchase=purchase):
+        purchase_items.append({
+            'name': p.product.name,
+            'amount': p.amount,
+            'fee': p.fee
+        })
+
+    return render(request, 'purchase/cart.html', {
+        'items': purchase_items
+    })
+

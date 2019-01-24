@@ -32,8 +32,7 @@ def product_list(request):
 
 
 def product_page(request, product_id):
-    queryset = Product.objects.get(id=product_id)
-    p = queryset
+    p = Product.objects.get(id=product_id)
     product = {'name': p.name,
             'price': p.price,
             'is_available': p.is_available,
@@ -44,6 +43,3 @@ def product_page(request, product_id):
             'product_id': p.id}
     return render(request, 'product_page.html',
                   context={'product': product},)
-    # print(product_id)
-
-
