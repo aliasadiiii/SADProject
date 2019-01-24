@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='account',
             name='name',
-            field=models.CharField(default=datetime.datetime(2018, 12, 21, 22, 28, 46, 182756, tzinfo=utc), max_length=20),
+            field=models.CharField(default='salam', max_length=20),
             preserve_default=False,
         ),
     ]
