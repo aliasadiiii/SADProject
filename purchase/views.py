@@ -75,7 +75,7 @@ class EditPurchaseItemView(View):
                           'purchase_item': {
                               'id': purchase_item.id,
                               'name': purchase_item.product.name,
-                      }})
+                          }})
 
     @staticmethod
     def post(request, purchase_item_id):
@@ -88,3 +88,14 @@ class EditPurchaseItemView(View):
         if form.is_valid():
             form.save()
             return redirect(reverse('purchase:show_purchase'))
+
+
+def delete_purchase_item(request, purchase_item_id):
+    try:
+        purchase_item = PurchaseItem.objects.get(id=purchase_item_id)
+    except PurchaseItem.DoesNotExist:
+        return HttpResponse(status=404)
+
+    purchase_item.delete()
+    return redirect(reverse('purchase:show_purchase'))
+
