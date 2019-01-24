@@ -1,0 +1,13 @@
+{% extends 'general/base.html' %}
+
+{% block content %}
+    <div style="width:300px; margin: 20px auto auto;">
+        <form method="post" action="{% url 'purchase:finalize_purchase' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div style="width: 50px; margin: auto;">
+                <input type="submit" class="btn btn-primary" value="نهایی کن">
+            </div>
+        </form>
+    </div>
+{% endblock %}

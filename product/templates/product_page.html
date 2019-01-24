@@ -37,17 +37,21 @@
                     <h5>{{ product.name }}</h5>
                 </blockquote>
                 <p style="direction: rtl">
-                    {% if product.is_available %} موجود
-                    {% else %} ناموجود
+                    {% if product.is_available %}
+                        قیمت:
+                        {{ product.price }}
+                    {% else %} <span style="color: red">ناموجود</span>
                     {% endif %} <br>
-                    قیمت:
-                    {{ product.price }} <br>
+                    تولید:
+                    {{ product.manufacture_date }} <br>
                     انقضا:
                     {{ product.expires_at }} <br>
                 </p>
+                {% if product.is_available %}
                 <a id='myInput' onclick="$('#myModal').modal('toggle')"
                    class="btn btn-primary" data-toggle="modal"
                    data-target="myModal">اضافه کردن به سبد خرید</a>
+                {% endif %}
             </div>
         </div>
     </div>

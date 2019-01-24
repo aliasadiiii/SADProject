@@ -5,7 +5,7 @@
         <div style="width: 150px; margin: 20px auto auto;">
             در سبد محصولی وجود ندارد
         </div>
-    {% endif %}
+    {% else %}
     {% for item in items %}
         <div class="card" style="width: 30%; margin: 20px auto auto;">
             <div class="card-body">
@@ -23,7 +23,8 @@
         </div>
     {% endfor %}
     <div style="width: 100px; margin: 20px auto auto;">
-        <button class="btn btn-primary" style="width: 100px;">نهایی کردن</button>
+        <a class="btn btn-primary" style="width: 100px;" href="{% url 'purchase:finalize_purchase' %}">نهایی کردن</a>
     </div>
+    {% endif %}
 
 {% endblock %}

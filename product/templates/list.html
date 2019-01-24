@@ -9,6 +9,7 @@
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                     <th scope="col">محصولات</th>
                 </tr>
                 </thead>
@@ -16,6 +17,7 @@
                 {% for p in products %}
                     <tr>
                         <td width="150px">
+                            {% if p.is_available %}
                             <a onclick="$('#Modal-{{ p.product_id }}').modal('toggle')"
                                class="btn btn-primary" data-toggle="modal"
                                data-target="Modal-{{ p.product_id }}">+</a>
@@ -57,6 +59,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endif %}
                         </td>
                         <td><img src="/media/{{ p.photo }}" height="100px"
                                  width="130px"></td>

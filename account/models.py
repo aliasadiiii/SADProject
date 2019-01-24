@@ -28,3 +28,6 @@ class Account(models.Model):
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.address[0:40]
