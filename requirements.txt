@@ -4,3 +4,4 @@ ipython
 model-mommy==1.6.0
 jdatetime==3.1.0
 coverage==4.5.2
+gunicorn==19.9.0
