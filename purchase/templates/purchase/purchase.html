@@ -5,7 +5,7 @@
         <div class="card" style="width: 30%; margin: 20px auto auto;">
             <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>
-                <a href="salam">ویرایش</a>
+                <a href="{% url 'purchase:edit_purchase_item' purchase_item_id=item.purchase_item_id %}">ویرایش</a>
                 &emsp; &emsp;
                 <span class="card-text" style="color: green;">T{{ item.fee }}</span>
                 &emsp; &emsp;

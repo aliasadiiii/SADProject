@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="modal-body form-group">
                                             <form method="post"
-                                                  action="{% url "purchase:add_item_to_cart" p.product_id %}"
+                                                  action="{% url "purchase:add_item_to_purchase" p.product_id %}"
                                                   dir="rtl">
                                                 {% csrf_token %}
                                                 <div class="form-group row">
