@@ -8,7 +8,8 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">login</button>
+        <a href="{% url 'account:forget_password' %}" style="margin-right: 10px;">فراموشی رمز عبور</a>
+        <input type="submit" value="ورود">
     </form>
 </center>
 {% endblock %}

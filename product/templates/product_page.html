@@ -38,8 +38,9 @@
                 </blockquote>
                 <p style="direction: rtl">
                     {% if product.is_available %}
+                        <span style="color: green">
                         قیمت:
-                        {{ product.price }}
+                        {{ product.price }}</span>
                     {% else %} <span style="color: red">ناموجود</span>
                     {% endif %} <br>
                     تولید:

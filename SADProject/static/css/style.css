@@ -5,5 +5,5 @@ body {
 
 @font-face {
     font-family: "behdad";
-    src: url("/SADProject/staticject/static/fonts/behdad/Behdad-Regular.woff");
+    src: url("/static/fonts/behdad/Behdad-Regular.woff");
 }
