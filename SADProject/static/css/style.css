@@ -1,0 +1,9 @@
+body {
+    font-family: behdad;
+    padding-bottom: 80px;
+}
+
+@font-face {
+    font-family: "behdad";
+    src: url("/SADProject/staticject/static/fonts/behdad/Behdad-Regular.woff");
+}
