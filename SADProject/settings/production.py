@@ -132,7 +132,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 
-HOST_NAME = 'http://hidden-temple-28665.herokuapp.com:8000'
+HOST_NAME = 'https://hidden-temple-28665.herokuapp.com'
 
 LOGGING = {
     'version': 1,

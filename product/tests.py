@@ -13,17 +13,17 @@ class ProductListTestCase(TestCase):
                    price=1000, expires_at=date.today() + timedelta(3))
 
     def test_product_list(self):
-        response = self.client.get('/product/list')
+        response = self.client.get('/product/list/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['products']), 1)
         self.assertEqual(response.context['kinds'], ['test'])
 
     def test_product_list_with_filter(self):
-        response = self.client.get('/product/list?kind=an')
+        response = self.client.get('/product/list/?kind=an')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['products'], [])
         self.assertEqual(response.context['kinds'], ['test'])
 
-        response = self.client.get('/product/list?kind=test')
+        response = self.client.get('/product/list/?kind=test')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['products']), 1)
