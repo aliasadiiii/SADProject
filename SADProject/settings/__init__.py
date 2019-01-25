@@ -1,6 +1,5 @@
 from .production import *
 
-DEBUG = True
 
 ALLOWED_HOSTS.append('localhost')
 
