@@ -10,3 +10,9 @@ install:
   - python manage.py migrate
 script:
   - python manage.py test
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "5db58067-89b9-447c-96b1-f5a3c1f34008"
+  app: hidden-temple-28665
