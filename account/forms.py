@@ -2,15 +2,11 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from account.models import Account
-
-
-def phone_validator(phone):
-    return len(phone) == 11 and str(phone).isalnum()
+from account.models import Account, phone_validator
 
 
 class SignupForm(UserCreationForm):
-    phone = forms.CharField(validators=[phone_validator, ])
+    phone = forms.CharField(validators=[phone_validator])
     email = forms.EmailField()
 
     def clean_email(self):
@@ -46,4 +42,5 @@ class EditProfileForm(forms.ModelForm):
         for field in ["name", "phone"]:
             self.fields[field].widget.attrs.update({"class": "form-control"})
         for field in ["avatar"]:
-            self.fields[field].widget.attrs.update({"class": "form-control-file"})
+            self.fields[field].widget.attrs.update(
+                {"class": "form-control-file"})

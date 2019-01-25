@@ -73,7 +73,7 @@ def activate(request):
         messages.add_message(request, messages.SUCCESS, "حساب کاربری شما فعال گردید")
         return redirect(reverse('home'))
     except Account.DoesNotExist:
-        return render(request, 'general/404.html')
+        return render(request, 'general/404.html', status=404)
 
 
 class ForgetPassword(View):
@@ -122,7 +122,7 @@ class ChangePassword(View):
             return render(request, 'account/change_password.html',
                           {'form': form})
         except (Account.DoesNotExist, KeyError):
-            return render(request, 'general/404.html')
+            return render(request, 'general/404.html', status=404)
 
     @staticmethod
     def post(request):
@@ -140,4 +140,4 @@ class ChangePassword(View):
             return render(request, 'account/change_password.html',
                           {'form': form})
         except (Account.DoesNotExist, KeyError):
-            return render(request, 'general/404.html')
+            return render(request, 'general/404.html', status=404)

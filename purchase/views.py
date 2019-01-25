@@ -21,7 +21,7 @@ def add_item_to_purchase(request, product_id):
     try:
         product = Product.objects.get(id=product_id, is_available=True)
     except Product.DoesNotExist:
-        return render(request, 'general/404.html')
+        return render(request, 'general/404.html', status=404)
 
     try:
         purchase_item = PurchaseItem.objects.get(purchase=purchase,
@@ -68,10 +68,10 @@ class EditPurchaseItemView(LoginRequiredMixin, View):
         try:
             purchase_item = PurchaseItem.objects.get(id=purchase_item_id)
         except PurchaseItem.DoesNotExist:
-            return render(request, 'general/404.html')
+            return render(request, 'general/404.html', status=404)
 
         if purchase_item.purchase.user != request.user:
-            return render(request, 'general/403.html')
+            return render(request, 'general/403.html', status=403)
 
         form = EditPurchaseItemForm(instance=purchase_item)
         return render(request, 'purchase/edit_purchase_item.html',
@@ -87,10 +87,10 @@ class EditPurchaseItemView(LoginRequiredMixin, View):
         try:
             purchase_item = PurchaseItem.objects.get(id=purchase_item_id)
         except PurchaseItem.DoesNotExist:
-            return render(request, 'general/404.html')
+            return render(request, 'general/404.html', status=404)
 
         if purchase_item.purchase.user != request.user:
-            return render(request, 'general/403.html')
+            return render(request, 'general/403.html', status=403)
 
         form = EditPurchaseItemForm(request.POST, instance=purchase_item)
         if form.is_valid():
@@ -113,10 +113,10 @@ def delete_purchase_item(request, purchase_item_id):
     try:
         purchase_item = PurchaseItem.objects.get(id=purchase_item_id)
     except PurchaseItem.DoesNotExist:
-        return render(request, 'general/404.html')
+        return render(request, 'general/404.html', status=404)
 
     if purchase_item.purchase.user != request.user:
-        return render(request, 'general/403.html')
+        return render(request, 'general/403.html', status=403)
 
     purchase_item.delete()
     messages.add_message(request, messages.SUCCESS,
@@ -130,7 +130,7 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
         try:
             purchase = Purchase.objects.get(user=request.user, state='N')
         except Purchase.DoesNotExist:
-            return render(request, 'general/404.html')
+            return render(request, 'general/404.html', status=404)
 
         form = FinalizePurchaseForm(instance=purchase)
         return render(request, 'purchase/finalize_purchase.html', {
@@ -142,7 +142,7 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
         try:
             purchase = Purchase.objects.get(user=request.user, state='N')
         except Purchase.DoesNotExist:
-            return render(request, 'general/404.html')
+            return render(request, 'general/404.html', status=404)
 
         form = FinalizePurchaseForm(request.POST, instance=purchase)
         if form.is_valid():
