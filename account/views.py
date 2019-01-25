@@ -1,7 +1,7 @@
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import UpdateView
 from django.views.generic.base import View
@@ -69,9 +69,11 @@ def activate(request):
         account = Account.objects.get(activation_token=token)
         account.user.is_active = True
         account.user.save()
+
+        messages.add_message(request, messages.SUCCESS, "حساب کاربری شما فعال گردید")
         return redirect(reverse('home'))
     except Account.DoesNotExist:
-        return HttpResponse("کاربر موردنظر وجود نداشت", status=404)
+        return render(request, 'general/404.html')
 
 
 class ForgetPassword(View):
@@ -98,6 +100,9 @@ class ForgetPassword(View):
                     email,
                     forget_password_link=forget_password_link
                 )
+
+                messages.add_message(request, messages.SUCCESS,
+                                     "لینک تغییر رمز عبور به ایمیل شما ارسال شد")
                 return redirect(reverse('home'))
             except Account.DoesNotExist:
                 return render(request, 'account/forget_password.html',
@@ -110,27 +115,29 @@ class ForgetPassword(View):
 class ChangePassword(View):
     @staticmethod
     def get(request):
-        token = request.GET.get('token')
         try:
+            token = request.GET['token']
             Account.objects.get(forget_password_token=token)
             form = ChangePasswordForm()
             return render(request, 'account/change_password.html',
                           {'form': form})
-        except Account.DoesNotExist:
-            return HttpResponse("کاربر موردنظر وجود نداشت", status=404)
+        except (Account.DoesNotExist, KeyError):
+            return render(request, 'general/404.html')
 
     @staticmethod
     def post(request):
-        token = request.GET.get('token')
         try:
+            token = request.GET['token']
             account = Account.objects.get(forget_password_token=token)
             form = ChangePasswordForm(request.POST)
             if form.is_valid():
                 password = form.cleaned_data['password1']
                 account.user.set_password(password)
                 account.user.save()
+                messages.add_message(request, messages.SUCCESS,
+                                     "رمز عبور شما تغییر کرد")
                 return redirect(reverse('home'))
             return render(request, 'account/change_password.html',
                           {'form': form})
-        except Account.DoesNotExist:
-            return HttpResponse("کاربر موردنظر وجود نداشت", status=404)
+        except (Account.DoesNotExist, KeyError):
+            return render(request, 'general/404.html')

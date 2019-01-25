@@ -1,6 +1,15 @@
 {% extends 'general/base.html' %}
 
 {% block content %}
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     {% if not items %}
         <div style="width: 150px; margin: 20px auto auto;">
             در سبد محصولی وجود ندارد

@@ -1,6 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.base import View
 
@@ -21,7 +21,7 @@ def add_item_to_purchase(request, product_id):
     try:
         product = Product.objects.get(id=product_id, is_available=True)
     except Product.DoesNotExist:
-        return HttpResponse(status=404)
+        return render(request, 'general/404.html')
 
     try:
         purchase_item = PurchaseItem.objects.get(purchase=purchase,
@@ -35,6 +35,7 @@ def add_item_to_purchase(request, product_id):
     purchase_item.fee = product.price
     purchase_item.save()
 
+    messages.add_message(request, messages.SUCCESS, "به سبد خرید اضافه گردید")
     return redirect(reverse('product_list'))
 
 
@@ -67,10 +68,10 @@ class EditPurchaseItemView(LoginRequiredMixin, View):
         try:
             purchase_item = PurchaseItem.objects.get(id=purchase_item_id)
         except PurchaseItem.DoesNotExist:
-            return HttpResponse(status=404)
+            return render(request, 'general/404.html')
 
         if purchase_item.purchase.user != request.user:
-            return HttpResponse(status=403)
+            return render(request, 'general/403.html')
 
         form = EditPurchaseItemForm(instance=purchase_item)
         return render(request, 'purchase/edit_purchase_item.html',
@@ -86,14 +87,16 @@ class EditPurchaseItemView(LoginRequiredMixin, View):
         try:
             purchase_item = PurchaseItem.objects.get(id=purchase_item_id)
         except PurchaseItem.DoesNotExist:
-            return HttpResponse(status=404)
+            return render(request, 'general/404.html')
 
         if purchase_item.purchase.user != request.user:
-            return HttpResponse(status=403)
+            return render(request, 'general/403.html')
 
         form = EditPurchaseItemForm(request.POST, instance=purchase_item)
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "مقدار کالا تغییر کرد")
             return redirect(reverse('purchase:show_purchase'))
 
         return render(request, 'purchase/edit_purchase_item.html',
@@ -110,12 +113,14 @@ def delete_purchase_item(request, purchase_item_id):
     try:
         purchase_item = PurchaseItem.objects.get(id=purchase_item_id)
     except PurchaseItem.DoesNotExist:
-        return HttpResponse(status=404)
+        return render(request, 'general/404.html')
 
     if purchase_item.purchase.user != request.user:
-        return HttpResponse(status=403)
+        return render(request, 'general/403.html')
 
     purchase_item.delete()
+    messages.add_message(request, messages.SUCCESS,
+                         "کالا از سبد خرید حذف شد")
     return redirect(reverse('purchase:show_purchase'))
 
 
@@ -125,7 +130,7 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
         try:
             purchase = Purchase.objects.get(user=request.user, state='N')
         except Purchase.DoesNotExist:
-            return HttpResponse(status=404)
+            return render(request, 'general/404.html')
 
         form = FinalizePurchaseForm(instance=purchase)
         return render(request, 'purchase/finalize_purchase.html', {
@@ -137,13 +142,15 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
         try:
             purchase = Purchase.objects.get(user=request.user, state='N')
         except Purchase.DoesNotExist:
-            return HttpResponse(status=404)
+            return render(request, 'general/404.html')
 
         form = FinalizePurchaseForm(request.POST, instance=purchase)
         if form.is_valid():
             purchase = form.save(commit=False)
             purchase.state = 'D'
             purchase.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "سبد خرید ثبت شد")
             return redirect(reverse('product_list'))
 
         return render(request, 'purchase/finalize_purchase.html', {
