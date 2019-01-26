@@ -1,0 +1,91 @@
+{% extends "general/base.html" %}
+
+{% block content %}
+    <style xmlns:purchase="http://www.w3.org/1999/xhtml"
+           xmlns:purchase="http://www.w3.org/1999/xhtml"
+           xmlns:purchase="http://www.w3.org/1999/xhtml">
+        .container {
+            padding: 5%;
+        }
+
+        .container .img {
+            text-align: center;
+        }
+
+        .container .details {
+            border-left: 3px solid #ded4da;
+        }
+
+        .container .details p {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .modal-header {
+            direction: rtl;
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 img">
+                <img src="/media/{{ product.photo }}" height="300px"
+                     width="300px">
+
+            </div>
+            <div class="col-md-6 details">
+                <blockquote>
+                    <h5>{{ product.name }}</h5>
+                </blockquote>
+                <p style="direction: rtl">
+                    {% if product.is_available %}
+                        <span style="color: green">
+                        قیمت:
+                        {{ product.price }}</span>
+                    {% else %} <span style="color: red">ناموجود</span>
+                    {% endif %} <br>
+                    تولید:
+                    {{ product.manufacture_date }} <br>
+                    انقضا:
+                    {{ product.expires_at }} <br>
+                </p>
+                {% if product.is_available %}
+                <a id='myInput' onclick="$('#myModal').modal('toggle')"
+                   class="btn btn-primary" data-toggle="modal"
+                   data-target="myModal">اضافه کردن به سبد خرید</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div id='myModal' class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تعیین مقدار محصول موردنظر</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body form-group">
+                    <form method="post"
+                          action="{% url "purchase:add_item_to_purchase" product.product_id %}"
+                          dir="rtl">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-2">مقدار:</label>
+                            <input value="{{ current }}" required
+                                   class="form-control col-sm-9" type="number"
+                                   name="amount"
+                                   placeholder="مقدار موردنظر را بر حسب کیلوگرم وارد کنید">
+                        </div>
+                        <br>
+                        <button class="btn btn-primary"> اضافه
+                            کن
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% endblock %}

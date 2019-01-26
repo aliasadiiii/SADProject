@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.base import View
+import jdatetime
 
 from product.models import Product
 from .forms import EditPurchaseItemForm, FinalizePurchaseForm
@@ -156,3 +157,26 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
         return render(request, 'purchase/finalize_purchase.html', {
             'form': form,
         })
+
+
+@login_required
+def show_history(request):
+    purchase = Purchase.objects.get(user=request.user, state='D')
+
+    products = []
+    for p in purchase:
+        products.append({
+            'name': p.name,
+            'price': p.price,
+            'is_available': p.is_available,
+            'expires_at': jdatetime.date.fromgregorian(date=p.expires_at),
+            'manufacture_date': jdatetime.date.fromgregorian(
+                date=p.manufacture_date),
+            'photo': p.photo,
+            'product_id': p.id
+        })
+
+    return render(request, 'purchase/history.html',
+                  context={'products': products})
+
+
