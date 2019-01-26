@@ -10,5 +10,6 @@ urlpatterns = [
     path('delete/<int:purchase_item_id>/', views.delete_purchase_item, name='delete_purchase_item'),
     path('add/<int:product_id>/', views.add_item_to_purchase, name='add_item_to_purchase'),
     path('history', views.show_history, name='show_history'),
+    path('purchase_details/<int:purchase_id>/', views.purchase_details, name='purchase_details'),
     path('', views.show_purchase, name='show_purchase')
 ]

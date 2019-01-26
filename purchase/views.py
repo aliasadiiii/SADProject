@@ -161,22 +161,31 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
 
 @login_required
 def show_history(request):
-    try:
-        purchase = Purchase.objects.filter(user=request.user, state='D')
-    except Purchase.DoesNotExist:
-        return render(request, 'general/404.html', status=404)
-
-    products = []
-    for p in purchase:
-        products.append({
-            'date': p.date,
+    purchases = []
+    for p in Purchase.objects.filter(user=request.user, state='D'):
+        purchases.append({
+            'date': jdatetime.date.fromgregorian(
+                date=p.date),
             'state': p.state,
             'comment': p.comment,
-            'user' : p.user,
-            'address' : p.address
+            'user': p.user,
+            'address': p.address,
+            'id': p.id
         })
 
     return render(request, 'purchase/history.html',
-                  context={'products': products})
+                  context={'purchases': purchases})
 
 
+@login_required
+def purchase_details(request, purchase_id):
+    purchase_items = []
+    for pur in PurchaseItem.objects.filter(purchase_id=purchase_id):
+        purchase_items.append({
+            'product_name': pur.product.name,
+            'amount': pur.amount,
+            'fee': pur.fee
+        })
+
+    return render(request, 'purchase/purchase_details.html',
+                  context={'purchase_items': purchase_items})

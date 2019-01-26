@@ -1,17 +1,8 @@
 {% extends 'general/base.html' %}
 
 {% block content %}
-    {% if messages %}
-        <div>
-            {% for message in messages %}
-                <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
     <div class="row">
-        <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main class="col-md-9 ml-sm-auto col-lg-12 px-4">
             <table class="table">
                 <thead>
                 <tr>
@@ -19,7 +10,7 @@
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
-                    <th scope="col">محصولات</th>
+                    <th scope="col">تاریخچه خرید</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,13 +23,17 @@
                         </td>
                         <td>                            تاریخ خرید
                         </td>
-                        <td>                            وضعیت
+                        <td>                           شماره خرید
                         </td>
                     </tr>
-                {% for p in products %}
-                    <tr>
+                {% for p in purchases %}
+                    <tr style="background-color:{% cycle 'white' 'lightgray' %}">
                         <td>
-                            {{ p.comment }}:نظر
+                            {% if p.comment %}
+                                {{ p.comment }}
+                            {% else %}
+                                -
+                            {% endif %}
 
                         </td>
                         <td>
@@ -51,26 +46,12 @@
                             {{ p.date }}
                         </td>
                         <td>
-                            {{ p.state }}
+                            <a href="{% url 'purchase:purchase_details' p.id %}">{{ p.id }}</a>
                         </td>
                     </tr>
                 {% endfor %}
                 <tbody>
             </table>
         </main>
-{#        <nav class="col-md-2 d-none d-md-block bg-light sidebar">#}
-{#            <div class="sidebar-sticky">#}
-{#                <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">انواع#}
-{#                    محصولات</h6>#}
-{#                <ul class="nav flex-column mb-2">#}
-{#                    {% for kind in kinds %}#}
-{#                        <li class="nav-item">#}
-{#                            <a class="nav-link"#}
-{#                               href="?kind={{ kind }}">{{ kind }}</a>#}
-{#                        </li>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
-{#            </div>#}
-{#        </nav>#}
     </div>
 {% endblock %}

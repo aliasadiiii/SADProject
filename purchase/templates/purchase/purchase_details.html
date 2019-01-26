@@ -1,0 +1,40 @@
+{% extends 'general/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <main class="col-md-9 ml-sm-auto col-lg-12 px-4">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">جزئیات خرید</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color: aqua">
+                        <td>                           قیمت
+                        </td>
+                        <td>                            مقدار خرید
+                        </td>
+                        <td>                           نام محصول
+                        </td>
+                    </tr>
+                {% for p in purchase_items %}
+                    <tr style="background-color:{% cycle 'white' 'lightgray' %}">
+                        <td>
+                            {{ p.fee }}
+                        </td>
+                        <td>
+                            {{ p.amount }}
+                        </td>
+                        <td>
+                            {{ p.product_name }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tbody>
+            </table>
+        </main>
+    </div>
+{% endblock %}
