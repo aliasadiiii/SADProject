@@ -161,7 +161,10 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
 
 @login_required
 def show_history(request):
-    purchase = Purchase.objects.get(user=request.user, state='D')
+    try:
+        purchase = Purchase.objects.get(user=request.user, state='D')
+    except Purchase.DoesNotExist:
+        return render(request, 'general/404.html', status=404)
 
     products = []
     for p in purchase:
