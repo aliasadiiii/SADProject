@@ -1,9 +1,13 @@
-import jdatetime
 from datetime import date
 
-from django.shortcuts import render
+import jdatetime
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import Product
+from account.models import Account
+from product.forms import CommentForm
+from .models import Product, Comment
 
 
 def product_list(request):
@@ -34,12 +38,31 @@ def product_list(request):
 def product_page(request, product_id):
     p = Product.objects.get(id=product_id)
     product = {'name': p.name,
-            'price': p.price,
-            'is_available': p.is_available,
-            'expires_at': jdatetime.date.fromgregorian(date=p.expires_at),
-            'manufacture_date': jdatetime.date.fromgregorian(
-                date=p.manufacture_date),
-            'photo': p.photo,
-            'product_id': p.id}
+               'price': p.price,
+               'is_available': p.is_available,
+               'expires_at': jdatetime.date.fromgregorian(date=p.expires_at),
+               'manufacture_date': jdatetime.date.fromgregorian(
+                   date=p.manufacture_date),
+               'photo': p.photo,
+               'product_id': p.id}
+    comments = []
+    comments = Comment.objects.filter(product=p)
     return render(request, 'product_page.html',
-                  context={'product': product},)
+                  context={'product': product, 'comments': comments}, )
+
+@login_required
+def add_comment_to_product(request,product_id):
+    p = get_object_or_404(Product, id = product_id)
+    if request.method == "POST":
+        print("tamam")
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.product = p
+            u = User.objects.get(username=request.user)
+            comment.author = Account.objects.get(user=u)
+            comment.save()
+            return redirect('product_page', product_id=product_id)
+    else:
+        form = CommentForm()
+    return render(request,'add_comment.html',{'form':form})

@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@acb6(-zu(6*p(u9n9qj=v)y50uclb3lun!_1kr6#*8=*i*6mm'
 
-ALLOWED_HOSTS = ['hidden-temple-28665.herokuapp.com']
+ALLOWED_HOSTS = ['hidden-temple-28665.herokuapp.com','127.0.0.1']
 
 # Application definition
 
