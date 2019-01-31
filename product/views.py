@@ -13,6 +13,10 @@ def product_list(request):
     queryset = Product.objects.filter(expires_at__gt=date.today())
     if request.GET.get('kind') is not None:
         queryset = queryset.filter(kind__name=request.GET.get('kind'))
+    if request.GET.get('minPrice') is not None:
+        queryset = queryset.filter(price__gte=request.GET.get('minPrice'))
+    if request.GET.get('maxPrice') is not None:
+        queryset = queryset.filter(price__lte=request.GET.get('maxPrice'))
 
     products = []
     for p in queryset:
