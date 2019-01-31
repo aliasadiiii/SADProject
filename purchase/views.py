@@ -189,3 +189,8 @@ def purchase_details(request, purchase_id):
 
     return render(request, 'purchase/purchase_details.html',
                   context={'purchase_items': purchase_items})
+
+def admin_purchase_details(request):
+    queryset = Product.objects.get(date__gt=date.today())
+    if request.GET.get('kind') is not None:
+        queryset = queryset.filter(kind__name=request.GET.get('kind'))
