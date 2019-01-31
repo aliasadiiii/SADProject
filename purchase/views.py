@@ -191,6 +191,8 @@ def purchase_details(request, purchase_id):
                   context={'purchase_items': purchase_items})
 
 def admin_purchase_details(request):
-    queryset = Product.objects.get(date__gt=date.today())
-    if request.GET.get('kind') is not None:
-        queryset = queryset.filter(kind__name=request.GET.get('kind'))
+    queryset = Product.objects.all()
+    if request.GET.get('from') is not None:
+        queryset = queryset.filter(date__gte=request.GET.get('from'))
+    if request.GET.get('to') is not None:
+        queryset = queryset.filter(date__lte=request.GET.get('to'))
