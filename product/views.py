@@ -54,7 +54,7 @@ def product_page(request, product_id):
     form = CommentForm()
     check = request.user.is_authenticated
     return render(request, 'product_page.html',
-                  context={'product': product, 'comments': comments, 'form':form, 'auth':check}, )
+                  context={'product': product, 'comments': comments, 'form':form, 'auth':check, 'user': Account.objects.get(user=request.user)}, )
 
 
 @login_required
