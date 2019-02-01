@@ -23,7 +23,9 @@
                         </td>
                         <td>                            تاریخ خرید
                         </td>
-                        <td>                           شماره خرید
+                        <td>                            وضعیت خرید
+                        </td>
+                        <td>                           شماره پیگیری
                         </td>
                     </tr>
                 {% for p in purchases %}
@@ -46,7 +48,10 @@
                             {{ p.date }}
                         </td>
                         <td>
-                            <a href="{% url 'purchase:purchase_details' p.id %}">{{ p.id }}</a>
+                            {{ p.state }}
+                        </td>
+                        <td>
+                            <a href="{% url 'purchase:purchase_details' p.reference_token %}">{{ p.reference_token }}</a>
                         </td>
                     </tr>
                 {% endfor %}

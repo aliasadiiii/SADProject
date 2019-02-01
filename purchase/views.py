@@ -148,7 +148,7 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
         form = FinalizePurchaseForm(request.POST, instance=purchase)
         if form.is_valid():
             purchase = form.save(commit=False)
-            purchase.state = 'D'
+            purchase.state = 'I'
             purchase.save()
             messages.add_message(request, messages.SUCCESS,
                                  "سبد خرید ثبت شد")
@@ -166,11 +166,11 @@ def show_history(request):
         purchases.append({
             'date': jdatetime.date.fromgregorian(
                 date=p.date),
-            'state': p.state,
+            'state': dict(Purchase.STATE_CHOICES)[p.state],
             'comment': p.comment,
             'user': p.user,
             'address': p.address,
-            'id': p.id
+            'reference_token': p.reference_token
         })
 
     return render(request, 'purchase/history.html',
@@ -178,9 +178,10 @@ def show_history(request):
 
 
 @login_required
-def purchase_details(request, purchase_id):
+def purchase_details(request, reference_token):
     purchase_items = []
-    for pur in PurchaseItem.objects.filter(purchase_id=purchase_id):
+    for pur in PurchaseItem.objects.filter(
+            purchase__reference_token=reference_token):
         purchase_items.append({
             'product_name': pur.product.name,
             'amount': pur.amount,
