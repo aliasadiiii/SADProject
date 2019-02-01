@@ -50,23 +50,21 @@ def product_page(request, product_id):
                'photo': p.photo,
                'product_id': p.id}
     comments = []
-    comments = Comment.objects.filter(product=p)
+    comments = Comment.objects.filter(product=p, approved=True)
+    form = CommentForm()
+    check = request.user.is_authenticated
     return render(request, 'product_page.html',
-                  context={'product': product, 'comments': comments}, )
+                  context={'product': product, 'comments': comments, 'form':form, 'auth':check}, )
+
 
 @login_required
-def add_comment_to_product(request,product_id):
-    p = get_object_or_404(Product, id = product_id)
-    if request.method == "POST":
-        print("tamam")
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.product = p
-            u = User.objects.get(username=request.user)
-            comment.author = Account.objects.get(user=u)
-            comment.save()
-            return redirect('product_page', product_id=product_id)
-    else:
-        form = CommentForm()
-    return render(request,'add_comment.html',{'form':form})
+def add_comment_to_product(request, product_id):
+    p = get_object_or_404(Product, id=product_id)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.product = p
+        u = User.objects.get(username=request.user)
+        comment.author = Account.objects.get(user=u)
+        comment.save()
+        return redirect('product_page', product_id=product_id)
