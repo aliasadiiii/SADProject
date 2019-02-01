@@ -24,7 +24,7 @@ class Purchase(models.Model):
     state = models.CharField(max_length=1, choices=STATE_CHOICES, default='N')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, null=True, on_delete=models.SET_NULL)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=200, null=True, blank=True)
     reference_token = models.CharField(max_length=10, unique=True,
                                        default=generate_random_token)
