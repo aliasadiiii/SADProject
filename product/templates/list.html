@@ -14,66 +14,63 @@
     <div class="row">
         <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
         <h1>محصولات</h1>
-            <div class="card-columns">
+            <div class="row">
                 {% for p in products %}
-                    <div class="card">
-                        <img src="/media/{{ p.photo }}" class="card-img-top" alt="...">
+                    <div class="card" style="width: 300px; margin-right: 20px; margin-left: 20px;">
+                        <img src="/media/{{ p.photo }}" class="card-img-top" alt="..." style="width: 250px; height: 250px; margin: 10px auto auto;">
                         <div class="card-body">
-                          <h5 class="card-title"><a href="/product/{{ p.product_id }}">{{ p.name }}</a></h5>
-                          <p class="card-text">
-                              {% if p.is_available %}
+                            <h5 class="card-title"><a href="/product/{{ p.product_id }}">{{ p.name }}</a></h5>
+                            <p class="card-text">
+                                {% if p.is_available %}
                                     <span style="color: green">T{{ p.price }}</span>
                                 {% else %}
                                     <span style="color: red">موجود نیست</span>
                                 {% endif %}
-                          </p>
-                        <p>
+                            </p>
                             {% if p.is_available %}
-                            <a onclick="$('#Modal-{{ p.product_id }}').modal('toggle')"
-                               class="btn btn-primary" data-toggle="modal"
-                               data-target="Modal-{{ p.product_id }}">+</a>
+                                <a onclick="$('#Modal-{{ p.product_id }}').modal('toggle')"
+                                   class="btn btn-primary" data-toggle="modal"
+                                   data-target="Modal-{{ p.product_id }}">+</a>
 
-                            <div id='Modal-{{ p.product_id }}' class="modal" tabindex="-1"
-                                 role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">تعیین مقدار
-                                                محصول موردنظر</h5>
-                                            <button type="button" class="close"
-                                                    data-dismiss="modal"
-                                                    aria-label="Close">
-                                                <span>&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body form-group">
-                                            <form method="post"
-                                                  action="{% url "purchase:add_item_to_purchase" p.product_id %}"
-                                                  dir="rtl">
-                                                {% csrf_token %}
-                                                <div class="form-group row">
-                                                    <label class="col-form-label col-sm-2">مقدار:</label>
-                                                    <input value="{{ current }}"
-                                                           required
-                                                           class="form-control col-sm-9"
-                                                           type="number"
-                                                           name="amount"
-                                                           placeholder="مقدار موردنظر را بر حسب کیلوگرم وارد کنید">
-                                                </div>
-                                                <br>
-                                                <button class="btn btn-primary">
-                                                    اضافه
-                                                    کن
+                                <div id='Modal-{{ p.product_id }}' class="modal" tabindex="-1"
+                                     role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">تعیین مقدار
+                                                    محصول موردنظر</h5>
+                                                <button type="button" class="close"
+                                                        data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span>&times;</span>
                                                 </button>
-                                            </form>
+                                            </div>
+                                            <div class="modal-body form-group">
+                                                <form method="post"
+                                                      action="{% url "purchase:add_item_to_purchase" p.product_id %}"
+                                                      dir="rtl">
+                                                    {% csrf_token %}
+                                                    <div class="form-group row">
+                                                        <label class="col-form-label col-sm-2">مقدار:</label>
+                                                        <input value="{{ current }}"
+                                                               required
+                                                               class="form-control col-sm-9"
+                                                               type="number"
+                                                               name="amount"
+                                                               placeholder="مقدار موردنظر را بر حسب کیلوگرم وارد کنید">
+                                                    </div>
+                                                    <br>
+                                                    <button class="btn btn-primary">
+                                                        اضافه
+                                                        کن
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             {% endif %}
-                        </p>
                         </div>
-
                     </div>
                 {% endfor %}
             </div>
@@ -94,7 +91,7 @@
             <div class="sidebar-sticky">
                 <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">بازه قیمت</h6>
                 <ul class="nav flex-column mb-2">
-                    <form action="" method="get">
+                    <form action="">
                         <div class="input-group mb-3">
 {#                          <input name="minPrice" value="0" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">#}
                           <div class="input-group-append">

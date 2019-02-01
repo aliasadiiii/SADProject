@@ -1,0 +1,76 @@
+{% extends 'general/base.html' %}
+
+{% block content %}
+    {% if query and page.object_list %}
+        <div class="row">
+            <main class="col-md-9 ml-sm-auto col-lg-12 px-4">
+                <h1 style="margin-top: 20px; margin-right: 20px;">محصولات</h1>
+                <div class="row">
+                    {% for result in page.object_list %}
+                        <div class="card" style="width: 300px; margin-left: 20px; margin-right: 20px" >
+                            <img src="/media/{{ result.object.photo }}" class="card-img-top" alt="..." style="width: 250px; height: 250px; margin: 10px auto auto;">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/product/{{ result.object.product_id }}">{{ result.object.name }}</a></h5>
+                                <p class="card-text">
+                                    {% if result.object.is_available %}
+                                        <span style="color: green">T{{ result.object.price }}</span>
+                                    {% else %}
+                                        <span style="color: red">موجود نیست</span>
+                                    {% endif %}
+                                </p>
+                                {% if result.object.is_available %}
+                                    <a onclick="$('#Modal-{{ result.object.product_id }}').modal('toggle')"
+                                       class="btn btn-primary" data-toggle="modal"
+                                       data-target="Modal-{{ result.object.product_id }}">+</a>
+
+                                    <div id='Modal-{{ result.object.product_id }}' class="modal" tabindex="-1"
+                                         role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">تعیین مقدار
+                                                        محصول موردنظر</h5>
+                                                    <button type="button" class="close"
+                                                            data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span>&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body form-group">
+                                                    <form method="post"
+                                                          action="{% url "purchase:add_item_to_purchase" result.object.id%}"
+                                                          dir="rtl">
+                                                        {% csrf_token %}
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-sm-2">مقدار:</label>
+                                                            <input value="{{ current }}"
+                                                                   required
+                                                                   class="form-control col-sm-9"
+                                                                   type="number"
+                                                                   name="amount"
+                                                                   placeholder="مقدار موردنظر را بر حسب کیلوگرم وارد کنید">
+                                                        </div>
+                                                        <br>
+                                                        <button class="btn btn-primary">
+                                                            اضافه
+                                                            کن
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </main>
+
+        </div>
+    {% else %}
+        <div style="margin: 20px auto auto; width: 150px;">
+        محصولی یافت نشد
+        </div>
+    {% endif %}
+{% endblock %}
