@@ -27,3 +27,22 @@ class ProductListTestCase(TestCase):
         response = self.client.get('/product/list/?kind=test')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['products']), 1)
+
+
+class ProductPageTestCase(TestCase):
+    def setUp(self):
+        product_kind = mommy.make(ProductKind, name='test')
+        self.product = mommy.make(Product, name='test',
+                                  kind=product_kind, price=1000,
+                                  expires_at=date.today() + timedelta(3))
+
+    def test_product_page(self):
+        response = self.client.get('/product/{}/'.format(self.product.id))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['product']['name'], self.product.name)
+        self.assertEqual(response.context['product']['price'],
+                         self.product.price)
+        self.assertEqual(response.context['product']['product_id'],
+                         self.product.id)
+
+        self.assertEqual(response.context['account'], None)

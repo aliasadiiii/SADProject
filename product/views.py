@@ -2,7 +2,7 @@ from datetime import date
 
 import jdatetime
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.shortcuts import render, get_object_or_404, redirect
 
 from account.models import Account
@@ -47,8 +47,15 @@ def product_page(request, product_id):
                'product_id': p.id}
     comments = Comment.objects.filter(product=p, approved=True)
     form = CommentForm()
+
+    if request.user.is_authenticated:
+        account = Account.objects.get(user=request.user)
+    else:
+        account = None
+
     return render(request, 'product_page.html',
-                  context={'product': product, 'comments': comments, 'form':form, 'account': Account.objects.get(user=request.user)} )
+                  context={'product': product, 'comments': comments, 'form':form,
+                           'account': account})
 
 
 @login_required
