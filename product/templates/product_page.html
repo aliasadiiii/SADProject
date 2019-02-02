@@ -70,17 +70,17 @@
         {% empty %}
         <p>No comments here yet :(</p>
         {% endfor %}
-        {% if auth%}
+        {% if user.is_authenticated %}
         <div class="comment form-group form-control">
             <center><label dir="rtl">اگر درباره این محصول نظری دارید در این جا با دیگران به اشتراک بگذارید.</label></center>
             <br>
-            <label>نویسنده: {{user.name}}</label>
+            <label>نویسنده: {{account.name}}</label>
             <br>
-            <label> {{user.user.email}} :ایمیل</label>
+            <label> {{account.user.email}} :ایمیل</label>
             <form dir="rtl" method="POST" class="post-form"
                   action="{% url 'add_comment_to_product'  product.product_id %}">{% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="save btn btn-default">ارسال نظر</button>
+                <button class="save btn btn-default">ارسال نظر</button>
             </form>
         </div>
         {% else %}

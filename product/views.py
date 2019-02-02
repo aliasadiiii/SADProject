@@ -17,10 +17,6 @@ def product_list(request):
     queryset = Product.objects.filter(expires_at__gt=date.today())
     if request.GET.get('kind') is not None:
         queryset = queryset.filter(kind__name=request.GET.get('kind'))
-    if request.GET.get('minPrice') is not None:
-        queryset = queryset.filter(price__gte=request.GET.get('minPrice'))
-    if request.GET.get('maxPrice') is not None:
-        queryset = queryset.filter(price__lte=request.GET.get('maxPrice'))
 
     products = []
     for p in queryset:
@@ -49,12 +45,10 @@ def product_page(request, product_id):
                    date=p.manufacture_date),
                'photo': p.photo,
                'product_id': p.id}
-    comments = []
     comments = Comment.objects.filter(product=p, approved=True)
     form = CommentForm()
-    check = request.user.is_authenticated
     return render(request, 'product_page.html',
-                  context={'product': product, 'comments': comments, 'form':form, 'auth':check, 'user': Account.objects.get(user=request.user)}, )
+                  context={'product': product, 'comments': comments, 'form':form, 'account': Account.objects.get(user=request.user)} )
 
 
 @login_required
