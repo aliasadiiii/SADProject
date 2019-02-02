@@ -68,4 +68,4 @@ def add_comment_to_product(request, product_id):
         u = User.objects.get(username=request.user)
         comment.author = Account.objects.get(user=u)
         comment.save()
-        return redirect('product_page', product_id=product_id)
+    return redirect('product_page', product_id=product_id)
