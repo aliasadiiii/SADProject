@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'product',
     'general',
     'purchase',
-    'easy_maps'
 ]
 
 MIDDLEWARE = [
@@ -164,7 +163,4 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-EASY_MAPS_GOOGLE_MAPS_API_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
-
-EASY_MAPS_CENTER = (35.6944 , 51.4215)
-
+GOOGLE_MAPS_API_KEY = 'AlzaSyD2U-3Uxq0PI2cX1c0OUII3mF8hdGiOYvY'

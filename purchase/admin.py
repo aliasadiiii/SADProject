@@ -3,6 +3,8 @@ from rangefilter import filter
 
 from django.contrib import admin
 from django.http import HttpResponse
+# from django_google_maps import fields as map_fields
+# from django_google_maps import widgets as map_widgets
 
 from .models import Purchase
 
@@ -27,3 +29,6 @@ class PurchaseAdmin(admin.ModelAdmin):
         return response
 
     export_as_csv.short_description = "Export Selected"
+    # formfield_overrides = {
+    #     map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget},
+    # }

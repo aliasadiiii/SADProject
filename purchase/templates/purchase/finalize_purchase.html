@@ -1,13 +1,45 @@
 {% extends 'general/base.html' %}
-{% load easy_maps_tags %}
 {% block content %}
-    <div style="width:300px; margin: 20px auto auto;">
+<script src="https://api-maps.yandex.ru/2.1/?apikey=3444ffd7-e419-4cf5-8eb7-cd11942d9c9c&lang=en_US"
+        type="text/javascript"></script>
+
+<div align="center">
+
+    <div id="map" style="width: 600px; height: 400px; position: relative;"></div>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        var myMap;
+
+        function init() {
+            myMap = new ymaps.Map("map", {
+                center: ["35.6944", "51.4215"],
+                zoom: 12
+            });
+            console.log(myMap.getCenter(), ["35.6944", "51.4215"]);
+            myPlacemark = new ymaps.Placemark(["35.6944", "51.4215"]);
+            myMap.geoObjects.add(myPlacemark);
+
+            myMap.events.add('click', function (e) {
+                myMap.geoObjects.remove(myPlacemark);
+                myPlacemark = new ymaps.Placemark(myMap.getCenter());
+                document.getElementById("id_locationX").value = myMap.getCenter()[0];
+                document.getElementById("id_locationY").value = myMap.getCenter()[1];
+                myMap.geoObjects.add(myPlacemark)
+            });
+        }
+    </script>
+
+    <div style="width:500px; margin: 20px auto auto;">
         <form method="post" action="{% url 'purchase:finalize_purchase' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div style="width: 50px; margin: auto;">
-                <input type="submit" class="btn btn-primary" value="نهایی کن">
+            <div align="center">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div style="width: 50px; margin: auto;">
+                    <input type="submit" class="btn btn-primary" value="نهایی کن">
+                </div>
             </div>
         </form>
     </div>
+
+</div>
 {% endblock %}
