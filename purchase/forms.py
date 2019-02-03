@@ -1,6 +1,5 @@
 from django import forms
 
-from account.models import Address
 
 from .models import PurchaseItem, Purchase
 
@@ -15,15 +14,15 @@ class EditPurchaseItemForm(forms.ModelForm):
 class FinalizePurchaseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FinalizePurchaseForm, self).__init__(*args, **kwargs)
-        self.fields['address'].queryset = Address.objects.filter(
-            user=kwargs['instance'].user)
+        self.fields['address'].widget = forms.Textarea(
+            attrs={'rows': 1, 'cols': 41, 'placeholder': kwargs['instance'].user.account.address or ''})
 
         self.fields['comment'].widget = forms.Textarea(
             attrs={'rows': 5, 'cols': 41})
 
     def clean_address(self):
         data = self.cleaned_data['address']
-        if data is None:
+        if not data:
             raise forms.ValidationError("You should add address")
         return data
 

@@ -15,6 +15,7 @@ class Account(models.Model):
     name = models.CharField(max_length=20)
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=11, validators=[phone_validator])
+    address = models.CharField(max_length=200,null=True,blank=True)
     activation_token = models.CharField(max_length=10, unique=True)
     forget_password_token = models.CharField(max_length=10, unique=True,
                                              null=True)
@@ -30,11 +31,3 @@ class Account(models.Model):
         code = [random.choice(string.digits) for _ in range(10)]
         code = ''.join(code)
         return code
-
-
-class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    address = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.address[0:40]

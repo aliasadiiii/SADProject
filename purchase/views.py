@@ -150,6 +150,10 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
             purchase = form.save(commit=False)
             purchase.state = 'I'
             purchase.save()
+
+            purchase.user.account.address = purchase.address
+            purchase.user.account.save()
+
             messages.add_message(request, messages.SUCCESS,
                                  "سبد خرید ثبت شد")
             return redirect(reverse('product_list'))
@@ -162,7 +166,7 @@ class FinalizePurchaseView(LoginRequiredMixin, View):
 @login_required
 def show_history(request):
     purchases = []
-    for p in Purchase.objects.filter(user=request.user, state='D'):
+    for p in Purchase.objects.filter(user=request.user).exclude(state='N'):
         purchases.append({
             'date': jdatetime.date.fromgregorian(
                 date=p.date),

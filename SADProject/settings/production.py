@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -22,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@acb6(-zu(6*p(u9n9qj=v)y50uclb3lun!_1kr6#*8=*i*6mm'
 
-ALLOWED_HOSTS = ['hidden-temple-28665.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['hidden-temple-28665.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -41,7 +42,8 @@ INSTALLED_APPS = [
     'account',
     'product',
     'general',
-    'purchase'
+    'purchase',
+    'easy_maps'
 ]
 
 MIDDLEWARE = [
@@ -161,3 +163,8 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
+
+EASY_MAPS_GOOGLE_MAPS_API_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
+
+EASY_MAPS_CENTER = (35.6944 , 51.4215)
+

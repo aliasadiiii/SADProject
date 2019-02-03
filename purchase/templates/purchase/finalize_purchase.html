@@ -1,5 +1,5 @@
 {% extends 'general/base.html' %}
-
+{% load easy_maps_tags %}
 {% block content %}
     <div style="width:300px; margin: 20px auto auto;">
         <form method="post" action="{% url 'purchase:finalize_purchase' %}">
