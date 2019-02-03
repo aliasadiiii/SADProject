@@ -25,7 +25,6 @@ class Purchase(models.Model):
     state = models.CharField(max_length=1, choices=STATE_CHOICES, default='N')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=200, null=True, blank=True)
-    #geo_code = gis_models.PointField()
     locationX = models.CharField(max_length=100,null=True,blank=True)
     locationY = models.CharField(max_length=100,null=True,blank=True)
     date = models.DateTimeField(auto_now_add=True)
