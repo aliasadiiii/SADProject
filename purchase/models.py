@@ -2,8 +2,6 @@ import string
 import random
 
 from django.contrib.auth.models import User
-#from django.contrib.gis.db import models as gis_models
-from django_google_maps import fields as map_fields
 from django.db import models
 
 from product.models import Product
@@ -31,6 +29,20 @@ class Purchase(models.Model):
     comment = models.CharField(max_length=200, null=True, blank=True)
     reference_token = models.CharField(max_length=10, unique=True,
                                        default=generate_random_token)
+
+    def __init__(self, *args, **kwargs):
+        super(Purchase, self).__init__(*args, **kwargs)
+        self.__original_state = self.state
+
+    def __str__(self):
+        return "Purchase #{}".format(self.reference_token)
+
+    def save(self, *args, **kwargs):
+        if self.__original_state != self.state:
+            from .utils import send_purchase_state_change_email
+            send_purchase_state_change_email(self)
+        super(Purchase, self).save(*args, **kwargs)
+        self.__original_state = self.state
 
 
 class PurchaseItem(models.Model):

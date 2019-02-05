@@ -1,8 +1,9 @@
 from datetime import date
-
 import jdatetime
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
 from account.models import Account
@@ -68,4 +69,7 @@ def add_comment_to_product(request, product_id):
         u = User.objects.get(username=request.user)
         comment.author = Account.objects.get(user=u)
         comment.save()
+
+    messages.add_message(request, messages.SUCCESS,
+                         "نظر ثبت گردید")
     return redirect('product_page', product_id=product_id)

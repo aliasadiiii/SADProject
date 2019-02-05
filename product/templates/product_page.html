@@ -1,6 +1,15 @@
 {% extends "general/base.html" %}
 
 {% block content %}
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="alert {% if message.tags %} alert-{{ message.tags }} {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 <style xmlns:purchase="http://www.w3.org/1999/xhtml"
        xmlns:purchase="http://www.w3.org/1999/xhtml"
        xmlns:purchase="http://www.w3.org/1999/xhtml">

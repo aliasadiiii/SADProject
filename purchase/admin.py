@@ -3,8 +3,6 @@ from rangefilter import filter
 
 from django.contrib import admin
 from django.http import HttpResponse
-# from django_google_maps import fields as map_fields
-# from django_google_maps import widgets as map_widgets
 
 from .models import Purchase
 
@@ -15,20 +13,24 @@ class PurchaseAdmin(admin.ModelAdmin):
     actions = ['export_as_csv']
 
     def export_as_csv(self, _request, queryset):
-        field_names = ['reference_token', 'date', 'state', 'comment']
+        field_names = ['reference_token', 'date', 'state', 'address', 'comment',
+                       'products', 'price']
 
-        response = HttpResponse(content_type='text/csv')
+        response = HttpResponse(content_type='text/csv', charset='utf-8')
         response['Content-Disposition'] = 'attachment; filename=purchase.csv'
         writer = csv.writer(response)
 
         writer.writerow(field_names)
         for obj in queryset:
+            products = ', '.join(
+                obj.purchaseitem_set.values_list('product__name', flat=True))
+            price = 0
+            for p in obj.purchaseitem_set.all():
+                price += p.fee * p.amount
             writer.writerow(
-                [getattr(obj, field) for field in field_names])
+                [obj.reference_token, obj.date, obj.state, obj.address,
+                 obj.comment, products, price])
 
         return response
 
     export_as_csv.short_description = "Export Selected"
-    # formfield_overrides = {
-    #     map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget},
-    # }
